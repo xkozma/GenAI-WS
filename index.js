@@ -59,6 +59,28 @@ app.use("/", helloRouter);
 // Use the router from the post.js file
 app.use("/posts", postRouter);
 
+// Endpoint to get available routes and methods
+app.get('/available-routes', (req, res) => {
+  const routes = [];
+  app._router.stack.forEach(middleware => {
+    if (middleware.route) { // routes registered directly on the app
+      routes.push({
+        path: middleware.route.path,
+        methods: Object.keys(middleware.route.methods).join(', ').toUpperCase()
+      });
+    } else if (middleware.name === 'router') { // router middleware
+      middleware.handle.stack.forEach(handler => {
+        const route = handler.route;
+        route && routes.push({
+          path: route.path,
+          methods: Object.keys(route.methods).join(', ').toUpperCase()
+        });
+      });
+    }
+  });
+  res.json(routes);
+});
+
 app.listen(PORT, () => console.log(`Server runs on port ${PORT}`));
 
 

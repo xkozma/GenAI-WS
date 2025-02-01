@@ -21,3 +21,82 @@ body {
   font-size: larger;
   color: white;
 }
+
+.api-call-section {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #444;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.api-call-section label {
+  display: block;
+  margin-bottom: 5px;
+  color: #fff;
+}
+
+.api-call-section input {
+  margin-bottom: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.parameter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.parameter input {
+  margin: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.parameter button {
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ff4d4d;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 0px
+}
+
+.parameter button:hover {
+  background-color: #ff1a1a;
+}
+
+#terminal {
+  margin-top: 20px;
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+#response {
+  white-space: pre-wrap;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #623686;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #4b2a57;
+}
+
+#parameters {
+  margin-bottom: 20px;
+  margin-top: 20px; /* Added margin-top to create space */
+}

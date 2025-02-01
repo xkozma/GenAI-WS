@@ -15,17 +15,74 @@
   </head>
   <body>
     <div class="app">
-      <h1>Welcome to my app!!</h1>
+      <h1>Generative AI WorkShop</h1>
       
+      <div class="api-call-section">
+        <h2>API Call Section</h2>
+        <div>
+          <label for="endpoint">Endpoint:</label>
+          <input type="text" id="endpoint" name="endpoint" list="endpoints" />
+          <datalist id="endpoints">
+            <option value="/posts"></option>
+            <option value="/api-docs/"></option>
+          </datalist>
+        </div>
+        <div id="parameters">
+          <h3>Parameters</h3>
+          <button type="button" onclick="addParameter()">Add Parameter</button>
+        </div>
+        <button type="button" onclick="makeApiCall()">Call API</button>
+        <div id="terminal">
+          <h3>Response</h3>
+          <pre id="response"></pre>
+        </div>
+      </div>
+
       <h2>To check the data please click on the link below:</h2>
       <div class="container">
-      <div class="container-link">
-        <a href="/posts">Posts</a>
+        <div class="container-link">
+          <a href="/posts">Posts</a>
+        </div>
+        <div class="container-link">
+          <a href="/api-docs/">Api-Docs</a>
+        </div>
       </div>
-      <div class="container-link">
-        <a href="/api-docs/">Api-Docs</a>
-      </div>
-      <div>
     </div>
+    <script>
+      function addParameter() {
+        const paramDiv = document.createElement('div');
+        paramDiv.className = 'parameter';
+        paramDiv.innerHTML = `
+          <input type="text" placeholder="Key" class="param-key" />
+          <input type="text" placeholder="Value" class="param-value" />
+          <button type="button" onclick="removeParameter(this)">Remove</button>
+        `;
+        document.getElementById('parameters').appendChild(paramDiv);
+      }
+
+      function removeParameter(button) {
+        button.parentElement.remove();
+      }
+
+      async function makeApiCall() {
+        const endpoint = document.getElementById('endpoint').value;
+        const params = new URLSearchParams();
+        document.querySelectorAll('.parameter').forEach(paramDiv => {
+          const key = paramDiv.querySelector('.param-key').value;
+          const value = paramDiv.querySelector('.param-value').value;
+          if (key) params.append(key, value);
+        });
+
+        const url = `${endpoint}?${params.toString()}`;
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const data = await response.json();
+        document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+      }
+    </script>
   </body>
 </html>
