@@ -23,7 +23,8 @@ You can access the front-end site at :
 http://localhost:8080/
 ```
 
-
+<img align="right" src="public/Home.png" width="100%"/>&nbsp;
+&nbsp;
 
 You can access the Swagger UI documentation at:
 ```
