@@ -87,14 +87,25 @@
         const endpoint = document.getElementById('endpoint').value;
         const method = document.getElementById('method').value;
         const params = new URLSearchParams();
-        document.querySelectorAll('.parameter').forEach(paramDiv => {
+        const paramElements = document.querySelectorAll('.parameter');
+        
+        paramElements.forEach(paramDiv => {
           const key = paramDiv.querySelector('.param-key').value;
           const value = paramDiv.querySelector('.param-value').value;
           if (key) params.append(key, value);
         });
 
-        const queryString = params.toString();
-        const url = (method === 'GET' || method === 'DELETE') && queryString ? `${endpoint}?${queryString}` : endpoint;
+        let url = endpoint;
+        if (paramElements.length === 1) {
+          const value = paramElements[0].querySelector('.param-value').value;
+          if (value) url += `/${value}`;
+        } else {
+          const queryString = params.toString();
+          if ((method === 'GET' || method === 'DELETE') && queryString) {
+            url += `?${queryString}`;
+          }
+        }
+
         const options = {
           method,
           headers: {
