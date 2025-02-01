@@ -27,9 +27,22 @@
             <option value="/api-docs/"></option>
           </datalist>
         </div>
+        <div>
+          <label for="method">Method:</label>
+          <select id="method" name="method" onchange="toggleRequestBody()">
+            <option value="GET">GET</option>
+            <option value="POST">POST</option>
+            <option value="PUT">PUT</option>
+            <option value="DELETE">DELETE</option>
+          </select>
+        </div>
         <div id="parameters">
           <h3>Parameters</h3>
           <button type="button" onclick="addParameter()">Add Parameter</button>
+        </div>
+        <div id="request-body" style="display: none;">
+          <h3>Request Body</h3>
+          <textarea id="body" rows="10" cols="50" placeholder="Enter JSON body here"></textarea>
         </div>
         <button type="button" onclick="makeApiCall()">Call API</button>
         <div id="terminal">
@@ -64,8 +77,15 @@
         button.parentElement.remove();
       }
 
+      function toggleRequestBody() {
+        const method = document.getElementById('method').value;
+        const requestBody = document.getElementById('request-body');
+        requestBody.style.display = method === 'GET' ? 'none' : 'block';
+      }
+
       async function makeApiCall() {
         const endpoint = document.getElementById('endpoint').value;
+        const method = document.getElementById('method').value;
         const params = new URLSearchParams();
         document.querySelectorAll('.parameter').forEach(paramDiv => {
           const key = paramDiv.querySelector('.param-key').value;
@@ -73,15 +93,28 @@
           if (key) params.append(key, value);
         });
 
-        const url = `${endpoint}?${params.toString()}`;
-        const response = await fetch(url, {
-          method: 'GET',
+        const url = method === 'GET' || method === 'DELETE' ? `${endpoint}?${params.toString()}` : endpoint;
+        const options = {
+          method,
           headers: {
             'Content-Type': 'application/json',
           },
-        });
-        const data = await response.json();
-        document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+        };
+        if (method === 'POST' || method === 'PUT') {
+          const body = document.getElementById('body').value;
+          options.body = body ? body : JSON.stringify(Object.fromEntries(params));
+        }
+
+        try {
+          const response = await fetch(url, options);
+          if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+          }
+          const data = await response.json();
+          document.getElementById('response').textContent = data ? JSON.stringify(data, null, 2) : 'Empty response';
+        } catch (error) {
+          document.getElementById('response').textContent = error.message;
+        }
       }
     </script>
   </body>

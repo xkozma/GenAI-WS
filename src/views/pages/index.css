@@ -43,6 +43,13 @@ body {
   border: 1px solid #ccc;
 }
 
+.api-call-section select {
+  margin-bottom: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
 .parameter {
   display: flex;
   align-items: center;
@@ -99,4 +106,15 @@ button:hover {
 #parameters {
   margin-bottom: 20px;
   margin-top: 20px; /* Added margin-top to create space */
+}
+
+#request-body {
+  margin-top: 20px;
+}
+
+#request-body textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
