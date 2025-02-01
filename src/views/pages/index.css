@@ -87,6 +87,12 @@ body {
 
 #response {
   white-space: pre-wrap;
+  font-family: monospace;
+  background-color: #222;
+  padding: 10px;
+  border-radius: 5px;
+  overflow-x: auto;
+  text-align: left; /* Align text to the left */
 }
 
 button {
