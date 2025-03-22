@@ -8,6 +8,8 @@ import dotenv from "dotenv";
 import swaggerUI from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
 import postRouter from "./Routes/posts.js";
+import fizzbuzzRouter from "./Routes/fizzbuzz.js";
+import chatRouter from "./Routes/chat.js";
 
 // CDN CSS
 
@@ -52,6 +54,12 @@ app.use(
 
 // Use the router from the post.js file
 app.use("/posts", postRouter);
+
+// Use the router from the fizzbuzz.js file
+app.use("/fizzbuzz", fizzbuzzRouter);
+
+// Use the router from the chat.js file
+app.use("/chat", chatRouter);
 
 // Endpoint to get available routes and methods
 app.get('/available-routes', (req, res) => {
